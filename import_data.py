@@ -17,40 +17,35 @@ mycursor.execute("CREATE DATABASE IF NOT EXISTS SERIAL_KILLERS")
 mycursor.execute("""
   CREATE TABLE IF NOT EXISTS SERIAL_KILLERS.Killers (
     Name VARCHAR(30) NOT NULL,
-    Country VARCHAR(30),
-    Years Active INTEGER,
-    Proven Victims INTEGER,
-    Deploy_Time VARCHAR(30),
-    Range_ VARCHAR(30),
-    Target VARCHAR(30),
-    Count VARCHAR(30),
-    Transport VARCHAR(30),
-    Type VARCHAR(30),
-    Rarity VARCHAR(30),
-    PRIMARY KEY (Unit)
+    Country Text,
+    Years Active Text,
+    Proven Victims Text,
+    Possible Victims Text,
+    Notes Text,
+    PRIMARY KEY (Name)
   );""")
 
 #Delete data from the table Clsh_Unit
-mycursor.execute("DELETE FROM CLASH_ROYALE.Clash_Unit")
+mycursor.execute("DELETE SERIAL.KILLERS.Killelrs")
 mydb.commit()
 
 #Read data from a csv file
-clash_data = pd.read_csv('./cr-unit-attributes.csv', index_col=False, delimiter = ',')
-clash_data = clash_data.fillna('Null')
-print(clash_data.head(20))
+killers_data = pd.read_csv('./cr-unit-attributes.csv', index_col=False, delimiter = ',')
+killers_data = killers_data.fillna('Null')
+print(killers_data.head(20))
 
 #Fill the table
-for i,row in clash_data.iterrows():
+for i,row in killers_data.iterrows():
     cursor = mydb.cursor()
     #here %S means string values 
-    sql = "INSERT INTO CLASH_ROYALE.Clash_Unit VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    sql = "INSERT INTO SERIAL_KILLERS.Killers VALUES (%s,%s,%s,%s,%s,%s)"
     cursor.execute(sql, tuple(row))
     print("Record inserted")
     # the connection is not auto committed by default, so we must commit to save our changes
     mydb.commit()
 
 #Check if the table has been filled
-mycursor.execute("SELECT * FROM CLASH_ROYALE.Clash_Unit")
+mycursor.execute("SELECT * FROM SERIAL_KILLERS.Killers")
 myresult = mycursor.fetchall()
 
 for x in myresult:
